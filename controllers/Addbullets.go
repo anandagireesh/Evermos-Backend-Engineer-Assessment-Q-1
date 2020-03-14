@@ -9,6 +9,8 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
+// register bullets to database controller
+
 func AddBullet(w http.ResponseWriter, r *http.Request) {
 
 	b, err := ioutil.ReadAll(r.Body)
@@ -32,41 +34,34 @@ func AddBullet(w http.ResponseWriter, r *http.Request) {
 	message := models.AddBullet(data)
 
 	// log.Println(message)
-	
 
 	var dataresponse []StatusMessage
 
 	dataresponse = append(dataresponse, StatusMessage{Message: message})
 
-	if message == "Bullet numbered already registered"{
+	if message == "Bullet numbered already registered" {
 
 		response := &Response{
 			Code:   http.StatusNotAcceptable,
 			Status: "Not Acceptable",
 			Data:   dataresponse,
-
-			urlsJson, _ := json.Marshal(response)
-			log.Println(urlsJson)
-
-			w.Write(urlsJson)
-		}else{
-
-			response := &Response{
-				Code:   http.StatusOK,
-				Status: "ok",
-				Data:   dataresponse,
-	
-				urlsJson, _ := json.Marshal(response)
-				log.Println(urlsJson)
-	
-				w.Write(urlsJson)
-
 		}
+		urlsJson, _ := json.Marshal(response)
+		log.Println(urlsJson)
+
+		w.Write(urlsJson)
+
+	} else {
+
+		response := &Response{
+			Code:   http.StatusOK,
+			Status: "ok",
+			Data:   dataresponse,
+		}
+		urlsJson, _ := json.Marshal(response)
+		log.Println(urlsJson)
+
+		w.Write(urlsJson)
 
 	}
-
-	
-
-	
-
 }

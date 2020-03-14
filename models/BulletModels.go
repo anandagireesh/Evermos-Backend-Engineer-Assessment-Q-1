@@ -10,6 +10,8 @@ type Bullets struct {
 	Bullets string `json:"bullet"`
 }
 
+// register bullets to database model
+
 func AddBullet(data Bullets) string {
 
 	var message string
